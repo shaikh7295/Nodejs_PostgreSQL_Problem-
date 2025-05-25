@@ -8,16 +8,16 @@ async function insertIntoDB(records) {
     await client.query('BEGIN');
 
     for (const item of records) {
-      const fullName = `${item.name.firstName} ${item.name.lastName}`;
-      const age = item?.age || null;
-      const gender = item?.gender || null;
-      const address = item?.address || null;
-      const city = item?.address?.city || null;
-      const additional_info = item.additional_info || null;
+      const fullName = `${item.name?.firstName || ''} ${item.name?.lastName || ''}`;
+      const age = item?.age ?? null;
+      const gender = item?.gender ?? null;
+      const address = item?.address ?? null;
+      const city = item?.address?.city ?? null;
+      const additional_info = item?.additional_info ?? null;
 
       await client.query(
-        `INSERT INTO records (name, age, address, city, gender,additional_info)
-         VALUES ($1, $2, $3, $4, $5,$6)`,
+        `INSERT INTO records (name, age, address, city, gender, additional_info)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
         [fullName, age, address, city, gender, additional_info]
       );
     }

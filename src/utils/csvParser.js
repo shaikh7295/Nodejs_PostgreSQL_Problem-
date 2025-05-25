@@ -3,7 +3,7 @@
 
 const parseToCsv = (csv) => {
     try {
-        let sparateRecord = csv.trim().split('\n')
+        let sparateRecord = csv.trim().replace(/\r|/g, "").split('\n')
         let arr = []
         for (let i = 0; i < sparateRecord.length; i++) {
             let obj = {}
@@ -13,7 +13,7 @@ const parseToCsv = (csv) => {
             if (i > 0) {
                 for (let j = 0; j < splitKeys.length; j++) {
                     let key = keys[j].split('.')
-                    let value = sparateRecord[i].split(',')[j]
+                    let value = `${sparateRecord[i].split(',')[j]}`
                     if (keys[j].includes('.')) {
                         if (obj.hasOwnProperty(`${key[0]}`)) {
                             obj[`${key[0]}`][`${key[1]}`] = value
@@ -35,7 +35,7 @@ const parseToCsv = (csv) => {
             }
 
 
-            
+
         }
 
         return arr
